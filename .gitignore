@@ -1,0 +1,37 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+
+# Sensitive files
+*.tfvars
+*.tfvars.json
+secrets.auto.tfvars
+.env
+.env.local
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# Misc
+coverage/
+dist/
+
+# Ignore private keys
+*.pem
