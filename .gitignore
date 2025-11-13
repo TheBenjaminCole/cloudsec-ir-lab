@@ -38,3 +38,4 @@ dist/
 githubSSH
 .githubSSH*
 *.key
+githubSSH.pub
