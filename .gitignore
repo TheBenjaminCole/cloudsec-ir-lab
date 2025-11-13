@@ -35,3 +35,6 @@ dist/
 
 # Ignore private keys
 *.pem
+githubSSH
+.githubSSH*
+*.key
