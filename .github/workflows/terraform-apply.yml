@@ -1,0 +1,52 @@
+name: Terraform Apply (main)
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  TF_WORKING_DIR: infra
+
+jobs:
+  terraform-apply:
+    name: Terraform apply
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      #- name: Configure AWS credentials (OIDC - recommended)
+      #  uses: aws-actions/configure-aws-credentials@v2
+      #  with:
+      #    role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+      #    aws-region: ${{ secrets.AWS_REGION }}
+
+      # Fallback (uncomment if you prefer using stored secrets — **not recommended**):
+      - name: Configure AWS credentials (env keys - fallback)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.6.0"
+
+      - name: Terraform init
+        run: terraform init -input=false
+
+      - name: Terraform apply
+        env:
+          TF_IN_AUTOMATION: "true"
+        run: terraform apply -auto-approve
